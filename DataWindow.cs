@@ -35,6 +35,7 @@ namespace AccountKeeper
             menuStrip = new MainMenuStrip(this);
             this.Controls.Add(menuStrip);
             MainMenuStrip = menuStrip;
+            this.FormBorderStyle = FormBorderStyle.None;
         }
 
         private void InitializeListView()

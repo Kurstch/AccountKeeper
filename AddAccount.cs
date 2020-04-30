@@ -12,6 +12,7 @@ namespace AccountKeeper
 {
     public partial class AddAccount : Form
     {
+        private Label hLabel = null;
         private RichTextBox websiteTextBox = null;
         private RichTextBox emailTextBox = null;
         private RichTextBox usernameTextBox = null;
@@ -20,10 +21,14 @@ namespace AccountKeeper
         private ListViewItem accountData = null;
         private DataWindow dw = null;
 
+        private bool dragging = false;
+        private Point startPoint = Point.Empty;
+
         public AddAccount(DataWindow tempdw)
         {
             dw = tempdw;
             InitializeComponent();
+            InitializeHeaderLabel();
             InitializeWindow();
             InitializeWebsiteTextBox();
             InitializeEmailTextBox();
@@ -35,9 +40,31 @@ namespace AccountKeeper
         //Initializtions
         private void InitializeWindow()
         {
-            this.BackColor = Color.FromArgb(38, 38, 38);
+            this.BackColor = Color.FromArgb(32, 32, 32);
             this.Size = new Size(600, 400);
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = FormBorderStyle.None;
+
+            this.MouseDown += new MouseEventHandler(AddAccount_MouseDown);
+            this.MouseMove += new MouseEventHandler(AddAccount_MouseMove);
+            this.MouseUp += new MouseEventHandler(AddAccount_MouseUp);
+        }
+
+        private void InitializeHeaderLabel()
+        {
+            hLabel = new Label();
+
+            hLabel.BackColor = Color.Transparent;
+            hLabel.ForeColor = Color.FromArgb(205, 205, 205);
+            hLabel.Text = "Add new account";
+            hLabel.Font = new Font("Calibri", 13);
+
+            hLabel.Location = new Point(20, 30);
+            hLabel.Size = new Size(200, 20);
+
+            hLabel.BorderStyle = BorderStyle.None;
+
+            this.Controls.Add(hLabel);
+            this.ActiveControl = hLabel;
         }
 
         private void InitializeWebsiteTextBox()
@@ -49,7 +76,7 @@ namespace AccountKeeper
             websiteTextBox.Text = "Website";
             websiteTextBox.Font = new Font("Calibri", 14);
 
-            websiteTextBox.Location = new Point(30, 60);
+            websiteTextBox.Location = new Point(30, 90);
             websiteTextBox.Size = new Size(400, 30);
 
             websiteTextBox.BorderStyle = BorderStyle.None;
@@ -70,7 +97,7 @@ namespace AccountKeeper
             emailTextBox.Text = "E-mail";
             emailTextBox.Font = new Font("Calibri", 14);
 
-            emailTextBox.Location = new Point(30, 120);
+            emailTextBox.Location = new Point(30, 150);
             emailTextBox.Size = new Size(400, 30);
 
             emailTextBox.BorderStyle = BorderStyle.None;
@@ -91,7 +118,7 @@ namespace AccountKeeper
             usernameTextBox.Text = "Username";
             usernameTextBox.Font = new Font("Calibri", 14);
 
-            usernameTextBox.Location = new Point(30, 180);
+            usernameTextBox.Location = new Point(30, 210);
             usernameTextBox.Size = new Size(400, 30);
 
             usernameTextBox.BorderStyle = BorderStyle.None;
@@ -209,6 +236,26 @@ namespace AccountKeeper
                 usernameTextBox.ForeColor = Color.FromArgb(124, 124, 124);
                 usernameTextBox.Text = "Username";
             }
+        }
+
+        private void AddAccount_MouseDown(object sender, MouseEventArgs e)
+        {
+            dragging = true;
+            startPoint = new Point(e.X, e.Y);
+        }
+
+        private void AddAccount_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (dragging)
+            {
+                Point p = PointToScreen(e.Location);
+                this.Location = new Point(p.X - this.startPoint.X, p.Y - this.startPoint.Y);
+            }
+        }
+
+        private void AddAccount_MouseUp(object sender, MouseEventArgs e)
+        {
+            dragging = false;
         }
     }
 }

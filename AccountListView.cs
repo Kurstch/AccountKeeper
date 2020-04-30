@@ -13,8 +13,6 @@ namespace AccountKeeper
         private Color backColor = Color.FromArgb(38, 38, 38);
         private Color foreColor = Color.FromArgb(205, 205, 205);
 
-        private List<List<string>> accounts = null;
-
         public AccountListView()
         {
             InitializeListView();
@@ -33,8 +31,6 @@ namespace AccountKeeper
 
         private void InitializeListViewItems()
         {
-            accounts = new List<List<string>>();
-
             this.Columns.Add("Website", 140);
             this.Columns.Add("E-mail", 140);
             this.Columns.Add("Username", -2);
