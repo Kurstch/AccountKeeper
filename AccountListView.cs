@@ -27,13 +27,15 @@ namespace AccountKeeper
             this.BorderStyle = BorderStyle.None;
             this.Font = new Font("Calibri", 14);
             this.View = View.Details;
+            this.Scrollable = false;
         }
 
         private void InitializeListViewItems()
         {
-            this.Columns.Add("Website", 140);
-            this.Columns.Add("E-mail", 140);
-            this.Columns.Add("Username", -2);
+            this.Columns.Add("", -2);
+            this.Columns.Add("Website", 160, HorizontalAlignment.Left);
+            this.Columns.Add("E-mail", 200,HorizontalAlignment.Left);
+            this.Columns.Add("Username", -2, HorizontalAlignment.Left);
         }
 
         #region Set color

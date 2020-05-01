@@ -174,12 +174,12 @@ namespace AccountKeeper
 
         private void AcceptButton_MouseDown(object sender, MouseEventArgs e)
         {
-            accountData = new ListViewItem(websiteTextBox.Text);
-            accountData.Checked = true;
+            accountData = new ListViewItem();
+            accountData.SubItems.Add(websiteTextBox.Text);
             accountData.SubItems.Add(emailTextBox.Text);
             accountData.SubItems.Add(usernameTextBox.Text);
 
-            dw.ListViewAddNewAccount(accountData);
+            dw.AddNewListViewItem(accountData);
             this.Close();
         }
 
