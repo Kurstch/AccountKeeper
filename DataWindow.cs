@@ -16,8 +16,8 @@ namespace AccountKeeper
     public partial class DataWindow : Form
     {
         private MainMenuStrip menuStrip = null;
-        private AccountListView listView = null;
-        private List<ListViewItem> accounts = null;
+        private AccountDataGridView dgv = null;
+        private List<string[]> accounts = null;
 
         public DataWindow()
         {
@@ -43,17 +43,17 @@ namespace AccountKeeper
 
         private void InitializeListView()
         {
-            listView = new AccountListView();
+            dgv = new AccountDataGridView();
 
-            listView.Size = new Size(ClientRectangle.Width, ClientRectangle.Height - 40);
-            listView.Location = new Point(10, 30);
+            dgv.Size = new Size(ClientRectangle.Width, ClientRectangle.Height - 40);
+            dgv.Location = new Point(10, 30);
 
-            this.Controls.Add(listView);
+            this.Controls.Add(dgv);
 
             LoadData();
         }
 
-        public void AddNewListViewItem(ListViewItem data)
+        public void AddNewListViewItem(string[] data)
         {
             accounts.Add(data);
             UpdateListView();
@@ -65,9 +65,9 @@ namespace AccountKeeper
             Stream stream = File.Open(@"C:\Saves\AccountKeeper\save.xml", FileMode.Create);
 
             XElement xml = new XElement("Accounts", accounts.Select(account => new XElement("account",
-                new XAttribute("website", account.SubItems[1]),
-                new XAttribute("e-mail", account.SubItems[2]),
-                new XAttribute("username", account.SubItems[3]))));
+                new XAttribute("website", account[0]),
+                new XAttribute("e-mail", account[1]),
+                new XAttribute("username", account[2]))));
             xml.Save(stream);
 
             stream.Close();
@@ -75,7 +75,7 @@ namespace AccountKeeper
 
         private void LoadData()
         {
-            accounts = new List<ListViewItem>();
+            accounts = new List<string[]>();
 
             string filePath = @"C:\Saves\AccountKeeper\save.xml";
 
@@ -93,12 +93,12 @@ namespace AccountKeeper
 
                 foreach (XElement account in ac.Elements())
                 {
-                    ListViewItem listViewItem = new ListViewItem();
+
                     foreach (XAttribute atribute in account.Attributes())
                     {
-                        listViewItem.SubItems.Add(atribute.Value.Split('{', '}')[1]);
+                        
                     }
-                    accounts.Add(listViewItem);
+                    //accounts.Add();
                 }
                 UpdateListView();
             }
@@ -110,13 +110,10 @@ namespace AccountKeeper
 
         public void UpdateListView()
         {
-            listView.BeginUpdate();
-            listView.Items.Clear();
-            foreach (ListViewItem account in accounts)
+            foreach (string[] account in accounts)
             {
-                listView.Items.Add(account);
+                dgv.Rows.Add(account);
             }
-            listView.EndUpdate();
         }
     }
 }

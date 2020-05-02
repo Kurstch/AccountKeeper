@@ -18,7 +18,6 @@ namespace AccountKeeper
         private RichTextBox usernameTextBox = null;
         private Button closeButton = null;
         private Button acceptButton = null;
-        private ListViewItem accountData = null;
         private DataWindow dw = null;
 
         private bool dragging = false;
@@ -174,11 +173,7 @@ namespace AccountKeeper
 
         private void AcceptButton_MouseDown(object sender, MouseEventArgs e)
         {
-            accountData = new ListViewItem();
-            accountData.SubItems.Add(websiteTextBox.Text);
-            accountData.SubItems.Add(emailTextBox.Text);
-            accountData.SubItems.Add(usernameTextBox.Text);
-
+            string[] accountData = { websiteTextBox.Text, emailTextBox.Text, usernameTextBox.Text };
             dw.AddNewListViewItem(accountData);
             this.Close();
         }

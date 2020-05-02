@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountListView.cs">
+    <Compile Include="AccountDataGridView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DataWindow.cs">
