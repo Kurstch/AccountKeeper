@@ -21,12 +21,15 @@ namespace AccountKeeper
 
         private void InitializeDataGridView()
         {
-            this.BackColor = backColor;
-            this.ForeColor = foreColor;
+            this.BackgroundColor = backColor;
+            this.BorderStyle = BorderStyle.None;
+            this.EnableHeadersVisualStyles = false;
 
             this.ColumnHeadersDefaultCellStyle.BackColor = backColor;
             this.ColumnHeadersDefaultCellStyle.ForeColor = foreColor;
             this.ColumnHeadersDefaultCellStyle.Font = new Font("Calibri", 16);
+            this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 
             this.RowHeadersDefaultCellStyle.BackColor = backColor;

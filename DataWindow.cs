@@ -93,12 +93,12 @@ namespace AccountKeeper
 
                 foreach (XElement account in ac.Elements())
                 {
-
+                    string[] accountData = null;
                     foreach (XAttribute atribute in account.Attributes())
                     {
-                        
+                        accountData.Append(atribute.Value.Split('{', '}')[1]);
                     }
-                    //accounts.Add();
+                    accounts.Add(accountData);
                 }
                 UpdateListView();
             }
@@ -110,6 +110,7 @@ namespace AccountKeeper
 
         public void UpdateListView()
         {
+            dgv.Rows.Clear();
             foreach (string[] account in accounts)
             {
                 dgv.Rows.Add(account);
