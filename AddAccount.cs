@@ -12,6 +12,11 @@ namespace AccountKeeper
 {
     public partial class AddAccount : Form
     {
+        private Color textBoxBackColor = Color.FromArgb(27, 27, 27);
+        private Color textBoxForeColorHint = Color.FromArgb(124, 124, 124);
+        private Color textBoxForeColorWrite = Color.FromArgb(205, 205, 205);
+        private Color textBoxForeColorFalseValue = Color.FromArgb(100, 36, 36);
+
         private Label hLabel = null;
         private RichTextBox websiteTextBox = null;
         private RichTextBox emailTextBox = null;
@@ -70,8 +75,8 @@ namespace AccountKeeper
         {
             websiteTextBox = new RichTextBox();
 
-            websiteTextBox.BackColor = Color.FromArgb(27, 27, 27);
-            websiteTextBox.ForeColor = Color.FromArgb(124, 124, 124);
+            websiteTextBox.BackColor = textBoxBackColor;
+            websiteTextBox.ForeColor = textBoxForeColorHint;
             websiteTextBox.Text = "Website";
             websiteTextBox.Font = new Font("Calibri", 14);
 
@@ -91,8 +96,8 @@ namespace AccountKeeper
         {
             emailTextBox = new RichTextBox();
 
-            emailTextBox.BackColor = Color.FromArgb(27, 27, 27);
-            emailTextBox.ForeColor = Color.FromArgb(124, 124, 124);
+            emailTextBox.BackColor = textBoxBackColor;
+            emailTextBox.ForeColor = textBoxForeColorHint;
             emailTextBox.Text = "E-mail";
             emailTextBox.Font = new Font("Calibri", 14);
 
@@ -112,8 +117,8 @@ namespace AccountKeeper
         {
             usernameTextBox = new RichTextBox();
 
-            usernameTextBox.BackColor = Color.FromArgb(27, 27, 27);
-            usernameTextBox.ForeColor = Color.FromArgb(124, 124, 124);
+            usernameTextBox.BackColor = textBoxBackColor;
+            usernameTextBox.ForeColor = textBoxForeColorHint;
             usernameTextBox.Text = "Username";
             usernameTextBox.Font = new Font("Calibri", 14);
 
@@ -173,9 +178,31 @@ namespace AccountKeeper
 
         private void AcceptButton_MouseDown(object sender, MouseEventArgs e)
         {
+            if (CheckForFalseValue())
+                return;
+
             string[] accountData = { websiteTextBox.Text, emailTextBox.Text, usernameTextBox.Text };
             dw.AddNewListViewItem(accountData);
             this.Close();
+        }
+
+        private bool CheckForFalseValue()
+        {
+            string[] s = {websiteTextBox.Text, "Website",
+                               emailTextBox.Text, "E-mail",
+                               usernameTextBox.Text, "Username"};
+
+            if (s[0] == s[1] || s[2] == s[3] || s[4] == s[5])
+            {
+                if(s[0] == s[1])
+                    websiteTextBox.ForeColor = textBoxForeColorFalseValue;
+                if(s[2] == s[3])
+                    emailTextBox.ForeColor = textBoxForeColorFalseValue;
+                if(s[4] == s[5])
+                    usernameTextBox.ForeColor = textBoxForeColorFalseValue;
+                return true;
+            }
+            return false;
         }
 
         private void WebsiteTextBox_GotFocus(object sender, EventArgs e)
@@ -183,7 +210,7 @@ namespace AccountKeeper
             if (websiteTextBox.Text == "Website")
             {
                 websiteTextBox.Text = "";
-                websiteTextBox.ForeColor = Color.FromArgb(205, 205, 205);
+                websiteTextBox.ForeColor = textBoxForeColorWrite;
             }
 
         }
@@ -192,7 +219,7 @@ namespace AccountKeeper
         {
             if (websiteTextBox.Text == "")
             {
-                websiteTextBox.ForeColor = Color.FromArgb(124, 124, 124);
+                websiteTextBox.ForeColor = textBoxForeColorHint;
                 websiteTextBox.Text = "Website";
             }
         }
@@ -202,7 +229,7 @@ namespace AccountKeeper
             if (emailTextBox.Text == "E-mail")
             {
                 emailTextBox.Text = "";
-                emailTextBox.ForeColor = Color.FromArgb(205, 205, 205);
+                emailTextBox.ForeColor = textBoxForeColorWrite;
             }
         }
 
@@ -210,7 +237,7 @@ namespace AccountKeeper
         {
             if (emailTextBox.Text == "")
             {
-                emailTextBox.ForeColor = Color.FromArgb(124, 124, 124);
+                emailTextBox.ForeColor = textBoxForeColorHint;
                 emailTextBox.Text = "E-mail";
             }
         }
@@ -220,7 +247,7 @@ namespace AccountKeeper
             if (usernameTextBox.Text == "Username")
             {
                 usernameTextBox.Text = "";
-                usernameTextBox.ForeColor = Color.FromArgb(205, 205, 205);
+                usernameTextBox.ForeColor = textBoxForeColorWrite;
             }
         }
 
@@ -228,7 +255,7 @@ namespace AccountKeeper
         {
             if (usernameTextBox.Text == "")
             {
-                usernameTextBox.ForeColor = Color.FromArgb(124, 124, 124);
+                usernameTextBox.ForeColor = textBoxForeColorHint;
                 usernameTextBox.Text = "Username";
             }
         }
