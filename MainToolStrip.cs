@@ -17,6 +17,8 @@ namespace AccountKeeper
         private ToolStripDropDownButton fileMenu = null;
         private ToolStripDropDownButton accountsMenu = null;
         private ToolStripButton closeButton = null;
+        private ToolStripButton maximizeButton = null;
+        private ToolStripButton minimizeButton = null;
         private DataWindow dw = null;
 
         private bool dragging = false;
@@ -32,6 +34,8 @@ namespace AccountKeeper
             InitializeFileMenu();
             InitializeAccountsMenu();
             InitializeCloseButton();
+            InitializeMaximizeButton();
+            InitializeMinimizeButton();
         }
 
         //Initializations
@@ -98,12 +102,42 @@ namespace AccountKeeper
             closeButton.BackColor = backColor;
             closeButton.ForeColor = foreColor;
             closeButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            closeButton.Text = "x";
+            closeButton.Text = "🗙";
 
             closeButton.Alignment = ToolStripItemAlignment.Right;
 
             this.Items.Add(closeButton);
             closeButton.MouseDown += new MouseEventHandler(CloseButton_MouseDown);
+        }
+
+        private void InitializeMaximizeButton()
+        {
+            maximizeButton = new ToolStripButton();
+
+            maximizeButton.BackColor = backColor;
+            maximizeButton.ForeColor = foreColor;
+            maximizeButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            maximizeButton.Text = "🗖";
+
+            maximizeButton.Alignment = ToolStripItemAlignment.Right;
+
+            this.Items.Add(maximizeButton);
+            maximizeButton.MouseDown += new MouseEventHandler(MaximizeButton_MouseDown);
+        }
+
+        private void InitializeMinimizeButton()
+        {
+            minimizeButton = new ToolStripButton();
+
+            minimizeButton.BackColor = backColor;
+            minimizeButton.ForeColor = foreColor;
+            minimizeButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            minimizeButton.Text = "🗕";
+
+            minimizeButton.Alignment = ToolStripItemAlignment.Right;
+
+            this.Items.Add(minimizeButton);
+            minimizeButton.MouseDown += new MouseEventHandler(MinimizeButton_MouseDown);
         }
 
         //Event handlers
@@ -140,6 +174,19 @@ namespace AccountKeeper
         private void CloseButton_MouseDown(object sender, MouseEventArgs e)
         {
             dw.Dispose();
+        }
+        
+        private void MaximizeButton_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (dw.WindowState == FormWindowState.Normal)
+                dw.WindowState = FormWindowState.Maximized;
+            else
+                dw.WindowState = FormWindowState.Normal;
+        }
+        
+        private void MinimizeButton_MouseDown(object sender, MouseEventArgs e)
+        {
+            dw.WindowState = FormWindowState.Minimized;
         }
     }
 }
