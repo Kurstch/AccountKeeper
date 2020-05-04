@@ -7,8 +7,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace AccountKeeper
@@ -19,6 +21,9 @@ namespace AccountKeeper
         private AccountDataGridView dgv = null;
         private List<string[]> accounts = null;
 
+        private string filePath = @"C:\Saves\AccountKeeper\save.xml";
+        private string dirPath = @"C:\Saves\AccountKeeper";
+
         public DataWindow()
         {
             InitializeComponent();
@@ -27,6 +32,7 @@ namespace AccountKeeper
             InitializeMenuStrip();
         }
 
+        //Initializations
         private void InitializeWindow()
         {
             this.BackColor = Color.FromArgb(38, 38, 38);
@@ -62,7 +68,14 @@ namespace AccountKeeper
 
         private void SaveData()
         {
-            Stream stream = File.Open(@"C:\Saves\AccountKeeper\save.xml", FileMode.Create);
+            Stream stream = File.Open(filePath, FileMode.Create);
+
+            if (!File.Exists(filePath))
+            {
+                Directory.CreateDirectory(dirPath);
+                FileStream fs = File.Create(filePath);
+                fs.Close();
+            }
 
             XElement xml = new XElement("Accounts", accounts.Select(account => new XElement("account",
                 new XAttribute("website", account[0]),
@@ -77,35 +90,27 @@ namespace AccountKeeper
         {
             accounts = new List<string[]>();
 
-            string filePath = @"C:\Saves\AccountKeeper\save.xml";
-
             if (!File.Exists(filePath))
             {
-                Directory.CreateDirectory(@"C:\Saves\AccountKeeper");
+                Directory.CreateDirectory(dirPath);
                 FileStream fs = File.Create(filePath);
                 fs.Close();
             }
 
-            try
-            {
-                XDocument xmlDoc = XDocument.Load(filePath);
-                XElement ac = xmlDoc.Element("Accounts");
+            XDocument xmlDoc = XDocument.Load(filePath);
+            XElement root = xmlDoc.Element("Accounts");
 
-                foreach (XElement account in ac.Elements())
-                {
-                    string[] accountData = null;
-                    foreach (XAttribute atribute in account.Attributes())
-                    {
-                        accountData.Append(atribute.Value.Split('{', '}')[1]);
-                    }
-                    accounts.Add(accountData);
-                }
-                UpdateListView();
-            }
-            catch
+            foreach (XElement account in root.Elements())
             {
+                string[] accountData = new string[3];
 
+                accountData[0] = account.Attribute("website").Value;
+                accountData[1] = account.Attribute("e-mail").Value;
+                accountData[2] = account.Attribute("username").Value;
+
+                accounts.Add(accountData);
             }
+            UpdateListView();
         }
 
         public void UpdateListView()
@@ -115,6 +120,7 @@ namespace AccountKeeper
             {
                 dgv.Rows.Add(account);
             }
+            dgv.UpdateCellColor();
         }
     }
 }

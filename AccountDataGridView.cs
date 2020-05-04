@@ -46,7 +46,7 @@ namespace AccountKeeper
         {
             this.Columns.Add("Websites", "Website");
             this.Columns.Add("E-mails", "E-mail");
-            this.Columns.Add("Usernames", "Username");
+            this.Columns.Add("Usernames", "Username");           
         }
 
         public void UpdateCellColor()
