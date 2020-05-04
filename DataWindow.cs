@@ -7,8 +7,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace AccountKeeper
@@ -16,8 +18,11 @@ namespace AccountKeeper
     public partial class DataWindow : Form
     {
         private MainMenuStrip menuStrip = null;
-        private AccountListView listView = null;
-        private List<ListViewItem> accounts = null;
+        private AccountDataGridView dgv = null;
+        private List<string[]> accounts = null;
+
+        private string filePath = @"C:\Saves\AccountKeeper\save.xml";
+        private string dirPath = @"C:\Saves\AccountKeeper";
 
         public DataWindow()
         {
@@ -27,6 +32,7 @@ namespace AccountKeeper
             InitializeMenuStrip();
         }
 
+        //Initializations
         private void InitializeWindow()
         {
             this.BackColor = Color.FromArgb(38, 38, 38);
@@ -43,17 +49,17 @@ namespace AccountKeeper
 
         private void InitializeListView()
         {
-            listView = new AccountListView();
+            dgv = new AccountDataGridView(this);
 
-            listView.Size = new Size(ClientRectangle.Width, ClientRectangle.Height - 40);
-            listView.Location = new Point(10, 30);
+            dgv.Size = new Size(ClientRectangle.Width, ClientRectangle.Height - 40);
+            dgv.Location = new Point(10, 30);
 
-            this.Controls.Add(listView);
+            this.Controls.Add(dgv);
 
             LoadData();
         }
 
-        public void AddNewListViewItem(ListViewItem data)
+        public void AddNewListViewItem(string[] data)
         {
             accounts.Add(data);
             UpdateListView();
@@ -62,12 +68,19 @@ namespace AccountKeeper
 
         private void SaveData()
         {
-            Stream stream = File.Open(@"C:\Saves\AccountKeeper\save.xml", FileMode.Create);
+            Stream stream = File.Open(filePath, FileMode.Create);
+
+            if (!File.Exists(filePath))
+            {
+                Directory.CreateDirectory(dirPath);
+                FileStream fs = File.Create(filePath);
+                fs.Close();
+            }
 
             XElement xml = new XElement("Accounts", accounts.Select(account => new XElement("account",
-                new XAttribute("website", account.SubItems[1]),
-                new XAttribute("e-mail", account.SubItems[2]),
-                new XAttribute("username", account.SubItems[3]))));
+                new XAttribute("website", account[0]),
+                new XAttribute("e-mail", account[1]),
+                new XAttribute("username", account[2]))));
             xml.Save(stream);
 
             stream.Close();
@@ -75,13 +88,11 @@ namespace AccountKeeper
 
         private void LoadData()
         {
-            accounts = new List<ListViewItem>();
-
-            string filePath = @"C:\Saves\AccountKeeper\save.xml";
+            accounts = new List<string[]>();
 
             if (!File.Exists(filePath))
             {
-                Directory.CreateDirectory(@"C:\Saves\AccountKeeper");
+                Directory.CreateDirectory(dirPath);
                 FileStream fs = File.Create(filePath);
                 fs.Close();
             }
@@ -89,34 +100,40 @@ namespace AccountKeeper
             try
             {
                 XDocument xmlDoc = XDocument.Load(filePath);
-                XElement ac = xmlDoc.Element("Accounts");
+                XElement root = xmlDoc.Element("Accounts");
 
-                foreach (XElement account in ac.Elements())
+                foreach (XElement account in root.Elements())
                 {
-                    ListViewItem listViewItem = new ListViewItem();
-                    foreach (XAttribute atribute in account.Attributes())
-                    {
-                        listViewItem.SubItems.Add(atribute.Value.Split('{', '}')[1]);
-                    }
-                    accounts.Add(listViewItem);
+                    string[] accountData = new string[3];
+
+                    accountData[0] = account.Attribute("website").Value;
+                    accountData[1] = account.Attribute("e-mail").Value;
+                    accountData[2] = account.Attribute("username").Value;
+
+                    accounts.Add(accountData);
                 }
                 UpdateListView();
             }
             catch
             {
-
+                UpdateListView();
             }
         }
 
-        public void UpdateListView()
+        private void UpdateListView()
         {
-            listView.BeginUpdate();
-            listView.Items.Clear();
-            foreach (ListViewItem account in accounts)
+            dgv.Rows.Clear();
+            foreach (string[] account in accounts)
             {
-                listView.Items.Add(account);
+                dgv.Rows.Add(account);
             }
-            listView.EndUpdate();
+            dgv.UpdateCellColor();
+        }
+
+        public void RemoveAccountFromList(int index)
+        {
+            accounts.RemoveAt(index);
+            SaveData();
         }
     }
 }
