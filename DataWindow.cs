@@ -49,7 +49,7 @@ namespace AccountKeeper
 
         private void InitializeListView()
         {
-            dgv = new AccountDataGridView();
+            dgv = new AccountDataGridView(this);
 
             dgv.Size = new Size(ClientRectangle.Width, ClientRectangle.Height - 40);
             dgv.Location = new Point(10, 30);
@@ -97,23 +97,30 @@ namespace AccountKeeper
                 fs.Close();
             }
 
-            XDocument xmlDoc = XDocument.Load(filePath);
-            XElement root = xmlDoc.Element("Accounts");
-
-            foreach (XElement account in root.Elements())
+            try
             {
-                string[] accountData = new string[3];
+                XDocument xmlDoc = XDocument.Load(filePath);
+                XElement root = xmlDoc.Element("Accounts");
 
-                accountData[0] = account.Attribute("website").Value;
-                accountData[1] = account.Attribute("e-mail").Value;
-                accountData[2] = account.Attribute("username").Value;
+                foreach (XElement account in root.Elements())
+                {
+                    string[] accountData = new string[3];
 
-                accounts.Add(accountData);
+                    accountData[0] = account.Attribute("website").Value;
+                    accountData[1] = account.Attribute("e-mail").Value;
+                    accountData[2] = account.Attribute("username").Value;
+
+                    accounts.Add(accountData);
+                }
+                UpdateListView();
             }
-            UpdateListView();
+            catch
+            {
+                UpdateListView();
+            }
         }
 
-        public void UpdateListView()
+        private void UpdateListView()
         {
             dgv.Rows.Clear();
             foreach (string[] account in accounts)
@@ -121,6 +128,12 @@ namespace AccountKeeper
                 dgv.Rows.Add(account);
             }
             dgv.UpdateCellColor();
+        }
+
+        public void RemoveAccountFromList(int index)
+        {
+            accounts.RemoveAt(index);
+            SaveData();
         }
     }
 }
