@@ -12,10 +12,11 @@ using System.Windows.Forms;
 
 namespace AccountKeeper
 {
-    class MainMenuStrip : MenuStrip
+    class MainToolStrip : ToolStrip
     {
-        private ToolStripMenuItem fileMenu = null;
-        private ToolStripMenuItem accountsMenu = null;
+        private ToolStripDropDownButton fileMenu = null;
+        private ToolStripDropDownButton accountsMenu = null;
+        private ToolStripButton closeButton = null;
         private DataWindow dw = null;
 
         private bool dragging = false;
@@ -24,20 +25,23 @@ namespace AccountKeeper
         private Color backColor = Color.FromArgb(85, 85, 85);
         private Color foreColor = Color.FromArgb(205, 205, 205);
 
-        public MainMenuStrip(DataWindow tempdw)
+        public MainToolStrip(DataWindow tempdw)
         {
             dw = tempdw;
-            InitializeMenuStrip();
+            InitializeToolStrip();
             InitializeFileMenu();
             InitializeAccountsMenu();
+            InitializeCloseButton();
         }
 
         //Initializations
-        private void InitializeMenuStrip()
+        private void InitializeToolStrip()
         {
             this.Dock = DockStyle.Top;
-            this.BackColor = Color.FromArgb(85, 85, 85);
-            this.ForeColor = Color.FromArgb(205, 205, 205);
+            this.GripStyle = ToolStripGripStyle.Hidden;
+            this.RenderMode = ToolStripRenderMode.System;
+            this.BackColor = backColor;
+            this.ForeColor = foreColor;
 
             this.MouseDown += new MouseEventHandler(MainMenuStrip_MouseDown);
             this.MouseMove += new MouseEventHandler(MainMenuStrip_MouseMove);
@@ -49,14 +53,15 @@ namespace AccountKeeper
         {
             ToolStripMenuItem exitApp = null;
 
-            fileMenu = new ToolStripMenuItem();
+            fileMenu = new ToolStripDropDownButton();
             fileMenu.BackColor = backColor;
             fileMenu.ForeColor = foreColor;
+            fileMenu.ShowDropDownArrow = false;
             fileMenu.Text = "File";
 
             exitApp = new ToolStripMenuItem();
             exitApp.BackColor = backColor;
-            exitApp.ForeColor = foreColor;
+            exitApp.ForeColor = Color.Black;
             exitApp.Text = "Exit";
             exitApp.MouseDown += new MouseEventHandler(ExitApp_MouseDown);
 
@@ -69,20 +74,36 @@ namespace AccountKeeper
         {
             ToolStripMenuItem addAccount = null;
 
-            accountsMenu = new ToolStripMenuItem();
+            accountsMenu = new ToolStripDropDownButton();
             accountsMenu.BackColor = backColor;
             accountsMenu.ForeColor = foreColor;
+            accountsMenu.ShowDropDownArrow = false;
             accountsMenu.Text = "Accounts";
 
             addAccount = new ToolStripMenuItem();
             addAccount.BackColor = backColor;
-            addAccount.ForeColor = foreColor;
+            addAccount.ForeColor = Color.Black;
             addAccount.Text = "Add Account";
             addAccount.MouseDown += new MouseEventHandler(AddAccount_MouseDown);
 
             accountsMenu.DropDownItems.AddRange(new ToolStripMenuItem[] { addAccount});
 
             this.Items.Add(accountsMenu);
+        }
+
+        private void InitializeCloseButton()
+        {
+            closeButton = new ToolStripButton();
+
+            closeButton.BackColor = backColor;
+            closeButton.ForeColor = foreColor;
+            closeButton.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            closeButton.Text = "x";
+
+            closeButton.Alignment = ToolStripItemAlignment.Right;
+
+            this.Items.Add(closeButton);
+            closeButton.MouseDown += new MouseEventHandler(CloseButton_MouseDown);
         }
 
         //Event handlers
@@ -114,6 +135,11 @@ namespace AccountKeeper
         private void MainMenuStrip_MouseUp(object sender, MouseEventArgs e)
         {
             dragging = false;
+        }
+
+        private void CloseButton_MouseDown(object sender, MouseEventArgs e)
+        {
+            dw.Dispose();
         }
     }
 }

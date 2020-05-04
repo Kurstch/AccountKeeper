@@ -61,7 +61,7 @@
     <Compile Include="AddAccount.Designer.cs">
       <DependentUpon>AddAccount.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainMenuStrip.cs">
+    <Compile Include="MainToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />

@@ -17,8 +17,9 @@ namespace AccountKeeper
 {
     public partial class DataWindow : Form
     {
-        private MainMenuStrip menuStrip = null;
+        private MainToolStrip toolStrip = null;
         private AccountDataGridView dgv = null;
+        private Button closeButton = null;
         private List<string[]> accounts = null;
 
         private string filePath = @"C:\Saves\AccountKeeper\save.xml";
@@ -41,9 +42,8 @@ namespace AccountKeeper
 
         private void InitializeMenuStrip()
         {
-            menuStrip = new MainMenuStrip(this);
-            this.Controls.Add(menuStrip);
-            MainMenuStrip = menuStrip;
+            toolStrip = new MainToolStrip(this);
+            this.Controls.Add(toolStrip);
             this.FormBorderStyle = FormBorderStyle.None;
         }
 
