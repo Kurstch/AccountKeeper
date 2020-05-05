@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace AccountKeeper
 {
-    public partial class AddAccount : Form
+    public partial class EditWindow : Form
     {
         private Color textBoxBackColor = Color.FromArgb(27, 27, 27);
-        private Color textBoxForeColorHint = Color.FromArgb(124, 124, 124);
-        private Color textBoxForeColorWrite = Color.FromArgb(205, 205, 205);
-        private Color textBoxForeColorFalseValue = Color.FromArgb(100, 36, 36);
+
+        private Color backColor = Color.FromArgb(32, 32, 32);
+        private Color foreColor = Color.FromArgb(205, 205, 205);
 
         private Label hLabel = null;
         private RichTextBox websiteTextBox = null;
@@ -23,34 +23,41 @@ namespace AccountKeeper
         private RichTextBox usernameTextBox = null;
         private Button closeButton = null;
         private Button acceptButton = null;
+        private Button deleteButton = null;
         private DataWindow dw = null;
+        private AccountDataGridView dgv = null;
+        private DataGridViewRow row = null;
 
         private bool dragging = false;
         private Point startPoint = Point.Empty;
 
-        public AddAccount(DataWindow tempdw)
+        public EditWindow(string[] accountData, AccountDataGridView tempDgv, DataGridViewRow tempRow, DataWindow tempdw)
         {
             dw = tempdw;
+            dgv = tempDgv;
+            row = tempRow;
+
             InitializeComponent();
-            InitializeHeaderLabel();
             InitializeWindow();
-            InitializeWebsiteTextBox();
-            InitializeEmailTextBox();
-            InitializeUsernameTextBox();
+            InitializeHeaderLabel();
+            InitializeWebsiteTextBox(accountData[0]);
+            InitializeEmailTextBox(accountData[1]);
+            InitializeUsernameTextBox(accountData[2]);
             InitializeAcceptButton();
             InitializeCloseButton();
+            InitializeDeleteButton();
         }
 
-        //Initializtions
+        //Initializations
         private void InitializeWindow()
         {
-            this.BackColor = Color.FromArgb(32, 32, 32);
+            this.BackColor = backColor;
             this.Size = new Size(600, 400);
             this.FormBorderStyle = FormBorderStyle.None;
 
-            this.MouseDown += new MouseEventHandler(AddAccount_MouseDown);
-            this.MouseMove += new MouseEventHandler(AddAccount_MouseMove);
-            this.MouseUp += new MouseEventHandler(AddAccount_MouseUp);
+            this.MouseDown += new MouseEventHandler(EditWindow_MouseDown);
+            this.MouseMove += new MouseEventHandler(EditWindow_MouseMove);
+            this.MouseUp += new MouseEventHandler(EditWindow_MouseUp);
         }
 
         private void InitializeHeaderLabel()
@@ -59,7 +66,7 @@ namespace AccountKeeper
 
             hLabel.BackColor = Color.Transparent;
             hLabel.ForeColor = Color.FromArgb(205, 205, 205);
-            hLabel.Text = "Add new account";
+            hLabel.Text = "Edit account";
             hLabel.Font = new Font("Calibri", 13);
 
             hLabel.Location = new Point(20, 30);
@@ -71,13 +78,13 @@ namespace AccountKeeper
             this.ActiveControl = hLabel;
         }
 
-        private void InitializeWebsiteTextBox()
+        private void InitializeWebsiteTextBox(string website)
         {
             websiteTextBox = new RichTextBox();
 
             websiteTextBox.BackColor = textBoxBackColor;
-            websiteTextBox.ForeColor = textBoxForeColorHint;
-            websiteTextBox.Text = "Website";
+            websiteTextBox.ForeColor = foreColor;
+            websiteTextBox.Text = website;
             websiteTextBox.Font = new Font("Calibri", 14);
 
             websiteTextBox.Location = new Point(30, 90);
@@ -88,17 +95,15 @@ namespace AccountKeeper
             websiteTextBox.ScrollBars = RichTextBoxScrollBars.None;
 
             this.Controls.Add(websiteTextBox);
-            websiteTextBox.GotFocus += new EventHandler(WebsiteTextBox_GotFocus);
-            websiteTextBox.LostFocus += new EventHandler(WebsiteTextBox_LostFocus);
         }
 
-        private void InitializeEmailTextBox()
+        private void InitializeEmailTextBox(string email)
         {
             emailTextBox = new RichTextBox();
 
             emailTextBox.BackColor = textBoxBackColor;
-            emailTextBox.ForeColor = textBoxForeColorHint;
-            emailTextBox.Text = "E-mail";
+            emailTextBox.ForeColor = foreColor;
+            emailTextBox.Text = email;
             emailTextBox.Font = new Font("Calibri", 14);
 
             emailTextBox.Location = new Point(30, 150);
@@ -109,17 +114,15 @@ namespace AccountKeeper
             emailTextBox.ScrollBars = RichTextBoxScrollBars.None;
 
             this.Controls.Add(emailTextBox);
-            emailTextBox.GotFocus += new EventHandler(EmailTextBox_GotFocus);
-            emailTextBox.LostFocus += new EventHandler(EmailTextBox_LostFocus);
         }
-        
-        private void InitializeUsernameTextBox()
+
+        private void InitializeUsernameTextBox(string username)
         {
             usernameTextBox = new RichTextBox();
 
             usernameTextBox.BackColor = textBoxBackColor;
-            usernameTextBox.ForeColor = textBoxForeColorHint;
-            usernameTextBox.Text = "Username";
+            usernameTextBox.ForeColor = foreColor;
+            usernameTextBox.Text = username;
             usernameTextBox.Font = new Font("Calibri", 14);
 
             usernameTextBox.Location = new Point(30, 210);
@@ -130,8 +133,6 @@ namespace AccountKeeper
             usernameTextBox.ScrollBars = RichTextBoxScrollBars.None;
 
             this.Controls.Add(usernameTextBox);
-            usernameTextBox.GotFocus += new EventHandler(UsernameTextBox_GotFocus);
-            usernameTextBox.LostFocus += new EventHandler(UsernameTextBox_LostFocus);
         }
 
         private void InitializeAcceptButton()
@@ -170,6 +171,24 @@ namespace AccountKeeper
             closeButton.MouseDown += new MouseEventHandler(CloseButton_MouseDown);
         }
 
+        private void InitializeDeleteButton()
+        {
+            deleteButton = new Button();
+
+            deleteButton.BackColor = Color.FromArgb(38, 38, 38);
+            deleteButton.ForeColor = Color.FromArgb(205, 205, 205);
+            deleteButton.FlatAppearance.BorderSize = 0;
+            deleteButton.FlatStyle = FlatStyle.Flat;
+            deleteButton.Font = new Font("Calibri", 12);
+            deleteButton.Text = "delete";
+
+            deleteButton.Size = new Size(100, 40);
+            deleteButton.Location = new Point(10, ClientSize.Height - 50);
+
+            this.Controls.Add(deleteButton);
+            deleteButton.MouseDown += new MouseEventHandler(DeleteButton_MouseDown);
+        }
+
         //Event handlers
         private void CloseButton_MouseDown(object sender, MouseEventArgs e)
         {
@@ -178,95 +197,24 @@ namespace AccountKeeper
 
         private void AcceptButton_MouseDown(object sender, MouseEventArgs e)
         {
-            if (CheckForFalseValue())
-                return;
-
             string[] accountData = { websiteTextBox.Text, emailTextBox.Text, usernameTextBox.Text };
-            dw.AddNewAccount(accountData);
+            dw.EditAccount(accountData, row.Index);
             this.Close();
         }
 
-        private bool CheckForFalseValue()
+        private void DeleteButton_MouseDown(object sender, MouseEventArgs e)
         {
-            string[] s = {websiteTextBox.Text, "Website",
-                               emailTextBox.Text, "E-mail",
-                               usernameTextBox.Text, "Username"};
-
-            if (s[0] == s[1] || s[2] == s[3] || s[4] == s[5])
-            {
-                if(s[0] == s[1])
-                    websiteTextBox.ForeColor = textBoxForeColorFalseValue;
-                if(s[2] == s[3])
-                    emailTextBox.ForeColor = textBoxForeColorFalseValue;
-                if(s[4] == s[5])
-                    usernameTextBox.ForeColor = textBoxForeColorFalseValue;
-                return true;
-            }
-            return false;
+            dgv.DeleteRow(row);
+            this.Close();
         }
 
-        private void WebsiteTextBox_GotFocus(object sender, EventArgs e)
-        {
-            if (websiteTextBox.Text == "Website")
-            {
-                websiteTextBox.Text = "";
-                websiteTextBox.ForeColor = textBoxForeColorWrite;
-            }
-
-        }
-
-        private void WebsiteTextBox_LostFocus(object sender, EventArgs e)
-        {
-            if (websiteTextBox.Text == "")
-            {
-                websiteTextBox.ForeColor = textBoxForeColorHint;
-                websiteTextBox.Text = "Website";
-            }
-        }
-        
-        private void EmailTextBox_GotFocus(object sender, EventArgs e)
-        {
-            if (emailTextBox.Text == "E-mail")
-            {
-                emailTextBox.Text = "";
-                emailTextBox.ForeColor = textBoxForeColorWrite;
-            }
-        }
-
-        private void EmailTextBox_LostFocus(object sender, EventArgs e)
-        {
-            if (emailTextBox.Text == "")
-            {
-                emailTextBox.ForeColor = textBoxForeColorHint;
-                emailTextBox.Text = "E-mail";
-            }
-        }
-
-        private void UsernameTextBox_GotFocus(object sender, EventArgs e)
-        {
-            if (usernameTextBox.Text == "Username")
-            {
-                usernameTextBox.Text = "";
-                usernameTextBox.ForeColor = textBoxForeColorWrite;
-            }
-        }
-
-        private void UsernameTextBox_LostFocus(object sender, EventArgs e)
-        {
-            if (usernameTextBox.Text == "")
-            {
-                usernameTextBox.ForeColor = textBoxForeColorHint;
-                usernameTextBox.Text = "Username";
-            }
-        }
-
-        private void AddAccount_MouseDown(object sender, MouseEventArgs e)
+        private void EditWindow_MouseDown(object sender, MouseEventArgs e)
         {
             dragging = true;
             startPoint = new Point(e.X, e.Y);
         }
 
-        private void AddAccount_MouseMove(object sender, MouseEventArgs e)
+        private void EditWindow_MouseMove(object sender, MouseEventArgs e)
         {
             if (dragging)
             {
@@ -275,7 +223,7 @@ namespace AccountKeeper
             }
         }
 
-        private void AddAccount_MouseUp(object sender, MouseEventArgs e)
+        private void EditWindow_MouseUp(object sender, MouseEventArgs e)
         {
             dragging = false;
         }

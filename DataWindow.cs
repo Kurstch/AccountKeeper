@@ -66,13 +66,7 @@ namespace AccountKeeper
             LoadData();
         }
 
-        public void AddNewListViewItem(string[] data)
-        {
-            accounts.Add(data);
-            UpdateListView();
-            SaveData();
-        }
-
+        //Save, load data
         private void SaveData()
         {
             Stream stream = File.Open(filePath, FileMode.Create);
@@ -125,11 +119,34 @@ namespace AccountKeeper
             {
                 
             }
-            UpdateListView();
+            UpdateDataGridView();
             statusStrip.UpdateItemCountLabel(dgv.RowCount - 1);
         }
 
-        private void UpdateListView()
+        //DataGridView management
+        public void AddNewAccount(string[] data)
+        {
+            accounts.Add(data);
+            UpdateDataGridView();
+        }
+
+        public void RemoveAccount(int index)
+        {
+            accounts.RemoveAt(index);
+            SaveData();
+        }
+
+        public void EditAccount(string[] accountData, int index)
+        {
+            string[] account = accounts[index];
+            account[0] = accountData[0];
+            account[1] = accountData[1];
+            account[2] = accountData[2];
+
+            UpdateDataGridView();
+        }
+
+        private void UpdateDataGridView()
         {
             dgv.Rows.Clear();
             foreach (string[] account in accounts)
@@ -137,11 +154,6 @@ namespace AccountKeeper
                 dgv.Rows.Add(account);
             }
             dgv.UpdateCellColor();
-        }
-
-        public void RemoveAccountFromList(int index)
-        {
-            accounts.RemoveAt(index);
             SaveData();
         }
     }

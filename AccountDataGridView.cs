@@ -9,13 +9,13 @@ using System.Windows.Forms;
 
 namespace AccountKeeper
 {
-    class AccountDataGridView : DataGridView
+    public class AccountDataGridView : DataGridView
     {
         private Color backColor = Color.FromArgb(38, 38, 38);
         private Color foreColor = Color.FromArgb(205, 205, 205);
 
         private DataWindow dw = null;
-        private DataGridViewButtonColumn deleteButtonColumn = null;
+        private DataGridViewButtonColumn EditButtonColumn = null;
 
         public AccountDataGridView(DataWindow tempdw)
         {
@@ -60,20 +60,19 @@ namespace AccountKeeper
             this.Columns.Add("E-mails", "E-mail");
             this.Columns.Add("Usernames", "Username");
 
-            InitializeDeleteButtonColumn();
+            InitializeEditButtonColumn();
         }
 
-        private void InitializeDeleteButtonColumn()
+        private void InitializeEditButtonColumn()
         {
-            deleteButtonColumn = new DataGridViewButtonColumn();
+            EditButtonColumn = new DataGridViewButtonColumn();
 
-            deleteButtonColumn.HeaderText = "";
-            deleteButtonColumn.Text = "delete";
-            deleteButtonColumn.Name = "deleteButtonColumn";
-            deleteButtonColumn.UseColumnTextForButtonValue = true;
-            deleteButtonColumn.FlatStyle = FlatStyle.Popup;
+            EditButtonColumn.HeaderText = "";
+            EditButtonColumn.Text = "edit";
+            EditButtonColumn.UseColumnTextForButtonValue = true;
+            EditButtonColumn.FlatStyle = FlatStyle.Popup;
 
-            this.Columns.Add(deleteButtonColumn);
+            this.Columns.Add(EditButtonColumn);
         }
 
         public void UpdateCellColor()
@@ -94,11 +93,21 @@ namespace AccountKeeper
             {
                 if (this.Rows.Count > 1)
                 {
+                    string[] accountData = { this.Rows[e.RowIndex].Cells[0].Value.ToString(),
+                                 this.Rows[e.RowIndex].Cells[1].Value.ToString(),
+                                 this.Rows[e.RowIndex].Cells[2].Value.ToString()};
                     DataGridViewRow row = this.Rows.SharedRow(e.RowIndex);
-                    this.Rows.Remove(row);
-                    dw.RemoveAccountFromList(e.RowIndex);
+
+                    new EditWindow(accountData, this, row, dw).Show();
                 }
             }
+        }
+
+        //Custom Methods
+        public void DeleteRow(DataGridViewRow row)
+        {
+            this.Rows.Remove(row);
+            dw.RemoveAccount(row.Index + 1);
         }
     }
 }
