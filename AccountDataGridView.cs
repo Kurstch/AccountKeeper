@@ -30,6 +30,8 @@ namespace AccountKeeper
             this.BackgroundColor = backColor;
             this.BorderStyle = BorderStyle.None;
             this.EnableHeadersVisualStyles = false;
+            this.RowHeadersWidth = 10;
+            this.RowHeadersDefaultCellStyle.Padding = new Padding(this.RowHeadersWidth);
 
             this.ColumnHeadersDefaultCellStyle.BackColor = backColor;
             this.ColumnHeadersDefaultCellStyle.ForeColor = foreColor;
@@ -69,7 +71,6 @@ namespace AccountKeeper
             deleteButtonColumn.Text = "delete";
             deleteButtonColumn.Name = "deleteButtonColumn";
             deleteButtonColumn.UseColumnTextForButtonValue = true;
-
             deleteButtonColumn.FlatStyle = FlatStyle.Popup;
 
             this.Columns.Add(deleteButtonColumn);

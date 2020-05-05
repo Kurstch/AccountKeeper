@@ -61,6 +61,9 @@
     <Compile Include="AddAccount.Designer.cs">
       <DependentUpon>AddAccount.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainStatusStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>

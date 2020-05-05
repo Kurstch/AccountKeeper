@@ -41,7 +41,6 @@ namespace AccountKeeper
         //Initializations
         private void InitializeToolStrip()
         {
-            this.Dock = DockStyle.Top;
             this.GripStyle = ToolStripGripStyle.Hidden;
             this.RenderMode = ToolStripRenderMode.System;
             this.BackColor = backColor;

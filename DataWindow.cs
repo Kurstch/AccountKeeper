@@ -18,8 +18,8 @@ namespace AccountKeeper
     public partial class DataWindow : Form
     {
         private MainToolStrip toolStrip = null;
+        private MainStatusStrip statusStrip = null;
         private AccountDataGridView dgv = null;
-        private Button closeButton = null;
         private List<string[]> accounts = null;
 
         private string filePath = @"C:\Saves\AccountKeeper\save.xml";
@@ -29,8 +29,9 @@ namespace AccountKeeper
         {
             InitializeComponent();
             InitializeWindow();
-            InitializeListView();
+            initializeStatusStrip();
             InitializeMenuStrip();
+            InitializeDataGridView();
         }
 
         //Initializations
@@ -38,16 +39,22 @@ namespace AccountKeeper
         {
             this.BackColor = Color.FromArgb(38, 38, 38);
             this.Size = new Size(600, 700);
+            this.FormBorderStyle = FormBorderStyle.None;
         }
 
         private void InitializeMenuStrip()
         {
             toolStrip = new MainToolStrip(this);
             this.Controls.Add(toolStrip);
-            this.FormBorderStyle = FormBorderStyle.None;
         }
 
-        private void InitializeListView()
+        private void initializeStatusStrip()
+        {
+            statusStrip = new MainStatusStrip();
+            this.Controls.Add(statusStrip);
+        }
+
+        private void InitializeDataGridView()
         {
             dgv = new AccountDataGridView(this);
 
@@ -84,6 +91,7 @@ namespace AccountKeeper
             xml.Save(stream);
 
             stream.Close();
+            statusStrip.UpdateItemCountLabel(dgv.RowCount - 1);
         }
 
         private void LoadData()
@@ -112,12 +120,13 @@ namespace AccountKeeper
 
                     accounts.Add(accountData);
                 }
-                UpdateListView();
             }
             catch
             {
-                UpdateListView();
+                
             }
+            UpdateListView();
+            statusStrip.UpdateItemCountLabel(dgv.RowCount - 1);
         }
 
         private void UpdateListView()
