@@ -204,8 +204,9 @@ namespace AccountKeeper
 
         private void DeleteButton_MouseDown(object sender, MouseEventArgs e)
         {
-            dgv.DeleteRow(row);
-            this.Close();
+            string question = "Are you sure you want to delete this?";
+            ConfirmationBox cBox = new ConfirmationBox(question, this);
+            cBox.Show();
         }
 
         private void EditWindow_MouseDown(object sender, MouseEventArgs e)
@@ -226,6 +227,13 @@ namespace AccountKeeper
         private void EditWindow_MouseUp(object sender, MouseEventArgs e)
         {
             dragging = false;
+        }
+
+        //Custom methods
+        public void deleteAccount()
+        {
+            dgv.DeleteRow(row);
+            this.Close();
         }
     }
 }
