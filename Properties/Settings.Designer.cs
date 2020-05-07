@@ -8,22 +8,81 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AccountKeeper.Properties
-{
-
-
+namespace AccountKeeper.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.5.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("38, 38, 38")]
+        public global::System.Drawing.Color formBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["formBackColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("205, 205, 205")]
+        public global::System.Drawing.Color foreColor {
+            get {
+                return ((global::System.Drawing.Color)(this["foreColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("85, 85, 85")]
+        public global::System.Drawing.Color stripBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["stripBackColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30, 30, 30")]
+        public global::System.Drawing.Color textBoxBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["textBoxBackColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("130, 36, 36")]
+        public global::System.Drawing.Color redForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["redForeColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("124, 124, 124")]
+        public global::System.Drawing.Color grayForeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["grayForeColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("44, 44, 44")]
+        public global::System.Drawing.Color selectionBackColor {
+            get {
+                return ((global::System.Drawing.Color)(this["selectionBackColor"]));
             }
         }
     }

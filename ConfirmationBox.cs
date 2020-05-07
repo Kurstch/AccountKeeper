@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccountKeeper.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,11 +12,7 @@ using System.Windows.Forms;
 namespace AccountKeeper
 {
     public partial class ConfirmationBox : Form
-    {
-        private Color backColor = Color.FromArgb(38, 38, 38);
-        private Color foreColor = Color.FromArgb(205, 205, 205);
-
-        
+    {        
         private Label questionLabel = null;
         private Button yesButton = null;
         private Button noButton = null;
@@ -29,16 +26,16 @@ namespace AccountKeeper
             edWindow = tempEdWindow;
 
             InitializeComponent();
-            InitializeWindow();
+            InitializeForm();
             InitializeQuestionlabel(question);
             InitializeYesButton();
             InitializeNoButton();
         }
 
         //Initializations
-        private void InitializeWindow()
+        private void InitializeForm()
         {
-            this.BackColor = backColor;
+            this.BackColor = Settings.Default.formBackColor;
             this.Size = new Size(300, 200);
             this.FormBorderStyle = FormBorderStyle.None;
 
@@ -52,8 +49,8 @@ namespace AccountKeeper
         {
             questionLabel = new Label();
 
-            questionLabel.BackColor = backColor;
-            questionLabel.ForeColor = foreColor;
+            questionLabel.BackColor = Color.Transparent;
+            questionLabel.ForeColor = Settings.Default.foreColor;
             questionLabel.Text = question;
             questionLabel.Font = new Font("Calibri", 13);
 
@@ -72,8 +69,9 @@ namespace AccountKeeper
         {
             yesButton = new Button();
 
-            yesButton.BackColor = backColor;
-            yesButton.ForeColor = foreColor;
+            yesButton.BackColor = Color.Transparent;
+            yesButton.ForeColor = Settings.Default.foreColor;
+            yesButton.FlatAppearance.MouseOverBackColor = Settings.Default.selectionBackColor;
             yesButton.FlatAppearance.BorderSize = 0;
             yesButton.FlatStyle = FlatStyle.Flat;
             yesButton.Font = new Font("Calibri", 12);
@@ -90,8 +88,9 @@ namespace AccountKeeper
         {
             noButton = new Button();
 
-            noButton.BackColor = backColor;
-            noButton.ForeColor = foreColor;
+            noButton.BackColor = Color.Transparent;
+            noButton.ForeColor = Settings.Default.foreColor;
+            noButton.FlatAppearance.MouseOverBackColor = Settings.Default.selectionBackColor;
             noButton.FlatAppearance.BorderSize = 0;
             noButton.FlatStyle = FlatStyle.Flat;
             noButton.Font = new Font("Calibri", 12);

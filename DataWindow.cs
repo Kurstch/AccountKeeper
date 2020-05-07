@@ -1,16 +1,10 @@
-﻿using System;
+﻿using AccountKeeper.Properties;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace AccountKeeper
@@ -28,16 +22,16 @@ namespace AccountKeeper
         public DataWindow()
         {
             InitializeComponent();
-            InitializeWindow();
+            InitializeForm();
             initializeStatusStrip();
             InitializeMenuStrip();
             InitializeDataGridView();
         }
 
         //Initializations
-        private void InitializeWindow()
+        private void InitializeForm()
         {
-            this.BackColor = Color.FromArgb(38, 38, 38);
+            this.BackColor = Settings.Default.formBackColor;
             this.Size = new Size(600, 700);
             this.FormBorderStyle = FormBorderStyle.None;
         }

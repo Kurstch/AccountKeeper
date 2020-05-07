@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccountKeeper.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,11 +13,6 @@ namespace AccountKeeper
 {
     public partial class EditWindow : Form
     {
-        private Color textBoxBackColor = Color.FromArgb(30, 30, 30);
-
-        private Color backColor = Color.FromArgb(38, 38, 38);
-        private Color foreColor = Color.FromArgb(205, 205, 205);
-
         private Label hLabel = null;
         private RichTextBox websiteTextBox = null;
         private RichTextBox emailTextBox = null;
@@ -38,7 +34,7 @@ namespace AccountKeeper
             row = tempRow;
 
             InitializeComponent();
-            InitializeWindow();
+            InitializeForm();
             InitializeHeaderLabel();
             InitializeWebsiteTextBox(accountData[0]);
             InitializeEmailTextBox(accountData[1]);
@@ -49,9 +45,9 @@ namespace AccountKeeper
         }
 
         //Initializations
-        private void InitializeWindow()
+        private void InitializeForm()
         {
-            this.BackColor = backColor;
+            this.BackColor = Settings.Default.formBackColor;
             this.Size = new Size(600, 400);
             this.FormBorderStyle = FormBorderStyle.None;
 
@@ -66,7 +62,7 @@ namespace AccountKeeper
             hLabel = new Label();
 
             hLabel.BackColor = Color.Transparent;
-            hLabel.ForeColor = Color.FromArgb(205, 205, 205);
+            hLabel.ForeColor = Settings.Default.foreColor;
             hLabel.Text = "Edit account";
             hLabel.Font = new Font("Calibri", 13);
 
@@ -83,8 +79,8 @@ namespace AccountKeeper
         {
             websiteTextBox = new RichTextBox();
 
-            websiteTextBox.BackColor = textBoxBackColor;
-            websiteTextBox.ForeColor = foreColor;
+            websiteTextBox.BackColor = Settings.Default.textBoxBackColor;
+            websiteTextBox.ForeColor = Settings.Default.foreColor;
             websiteTextBox.Text = website;
             websiteTextBox.Font = new Font("Calibri", 14);
 
@@ -102,8 +98,8 @@ namespace AccountKeeper
         {
             emailTextBox = new RichTextBox();
 
-            emailTextBox.BackColor = textBoxBackColor;
-            emailTextBox.ForeColor = foreColor;
+            emailTextBox.BackColor = Settings.Default.textBoxBackColor;
+            emailTextBox.ForeColor = Settings.Default.foreColor;
             emailTextBox.Text = email;
             emailTextBox.Font = new Font("Calibri", 14);
 
@@ -121,8 +117,8 @@ namespace AccountKeeper
         {
             usernameTextBox = new RichTextBox();
 
-            usernameTextBox.BackColor = textBoxBackColor;
-            usernameTextBox.ForeColor = foreColor;
+            usernameTextBox.BackColor = Settings.Default.textBoxBackColor;
+            usernameTextBox.ForeColor = Settings.Default.foreColor;
             usernameTextBox.Text = username;
             usernameTextBox.Font = new Font("Calibri", 14);
 
@@ -140,8 +136,9 @@ namespace AccountKeeper
         {
             acceptButton = new Button();
 
-            acceptButton.BackColor = Color.FromArgb(38, 38, 38);
-            acceptButton.ForeColor = Color.FromArgb(205, 205, 205);
+            acceptButton.BackColor = Color.Transparent;
+            acceptButton.ForeColor = Settings.Default.foreColor;
+            acceptButton.FlatAppearance.MouseOverBackColor = Settings.Default.selectionBackColor;
             acceptButton.FlatAppearance.BorderSize = 0;
             acceptButton.FlatStyle = FlatStyle.Flat;
             acceptButton.Font = new Font("Calibri", 12);
@@ -158,8 +155,9 @@ namespace AccountKeeper
         {
             closeButton = new Button();
 
-            closeButton.BackColor = Color.FromArgb(38, 38, 38);
-            closeButton.ForeColor = Color.FromArgb(205, 205, 205);
+            closeButton.BackColor = Color.Transparent;
+            closeButton.ForeColor = Settings.Default.foreColor;
+            closeButton.FlatAppearance.MouseOverBackColor = Settings.Default.selectionBackColor;
             closeButton.FlatAppearance.BorderSize = 0;
             closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.Font = new Font("Calibri", 16);
@@ -176,8 +174,9 @@ namespace AccountKeeper
         {
             deleteButton = new Button();
 
-            deleteButton.BackColor = Color.FromArgb(38, 38, 38);
-            deleteButton.ForeColor = Color.FromArgb(205, 205, 205);
+            deleteButton.BackColor = Color.Transparent;
+            deleteButton.ForeColor = Settings.Default.foreColor;
+            deleteButton.FlatAppearance.MouseOverBackColor = Settings.Default.selectionBackColor;
             deleteButton.FlatAppearance.BorderSize = 0;
             deleteButton.FlatStyle = FlatStyle.Flat;
             deleteButton.Font = new Font("Calibri", 12);

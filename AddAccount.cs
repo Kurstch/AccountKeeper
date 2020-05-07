@@ -1,22 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using AccountKeeper.Properties;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AccountKeeper
 {
     public partial class AddAccount : Form
     {
-        private Color textBoxBackColor = Color.FromArgb(30, 30, 30);
-        private Color textBoxForeColorHint = Color.FromArgb(124, 124, 124);
-        private Color textBoxForeColorWrite = Color.FromArgb(205, 205, 205);
-        private Color textBoxForeColorFalseValue = Color.FromArgb(130, 36, 36);
-
         private Label hLabel = null;
         private RichTextBox websiteTextBox = null;
         private RichTextBox emailTextBox = null;
@@ -44,7 +34,7 @@ namespace AccountKeeper
         //Initializtions
         private void InitializeWindow()
         {
-            this.BackColor = Color.FromArgb(38, 38, 38);
+            this.BackColor = Settings.Default.formBackColor;
             this.Size = new Size(600, 400);
             this.FormBorderStyle = FormBorderStyle.None;
 
@@ -59,7 +49,7 @@ namespace AccountKeeper
             hLabel = new Label();
 
             hLabel.BackColor = Color.Transparent;
-            hLabel.ForeColor = Color.FromArgb(205, 205, 205);
+            hLabel.ForeColor = Settings.Default.foreColor;
             hLabel.Text = "Add new account";
             hLabel.Font = new Font("Calibri", 13);
 
@@ -76,8 +66,8 @@ namespace AccountKeeper
         {
             websiteTextBox = new RichTextBox();
 
-            websiteTextBox.BackColor = textBoxBackColor;
-            websiteTextBox.ForeColor = textBoxForeColorHint;
+            websiteTextBox.BackColor = Settings.Default.textBoxBackColor;
+            websiteTextBox.ForeColor = Settings.Default.grayForeColor;
             websiteTextBox.Text = "Website";
             websiteTextBox.Font = new Font("Calibri", 14);
 
@@ -97,8 +87,8 @@ namespace AccountKeeper
         {
             emailTextBox = new RichTextBox();
 
-            emailTextBox.BackColor = textBoxBackColor;
-            emailTextBox.ForeColor = textBoxForeColorHint;
+            emailTextBox.BackColor = Settings.Default.textBoxBackColor;
+            emailTextBox.ForeColor = Settings.Default.grayForeColor;
             emailTextBox.Text = "E-mail";
             emailTextBox.Font = new Font("Calibri", 14);
 
@@ -118,8 +108,8 @@ namespace AccountKeeper
         {
             usernameTextBox = new RichTextBox();
 
-            usernameTextBox.BackColor = textBoxBackColor;
-            usernameTextBox.ForeColor = textBoxForeColorHint;
+            usernameTextBox.BackColor = Settings.Default.textBoxBackColor;
+            usernameTextBox.ForeColor = Settings.Default.grayForeColor;
             usernameTextBox.Text = "Username";
             usernameTextBox.Font = new Font("Calibri", 14);
 
@@ -139,8 +129,9 @@ namespace AccountKeeper
         {
             acceptButton = new Button();
 
-            acceptButton.BackColor = Color.FromArgb(38, 38, 38);
-            acceptButton.ForeColor = Color.FromArgb(205, 205, 205);
+            acceptButton.BackColor = Color.Transparent;
+            acceptButton.ForeColor = Settings.Default.foreColor;
+            acceptButton.FlatAppearance.MouseOverBackColor = Settings.Default.selectionBackColor;
             acceptButton.FlatAppearance.BorderSize = 0;
             acceptButton.FlatStyle = FlatStyle.Flat;
             acceptButton.Font = new Font("Calibri", 12);
@@ -157,8 +148,9 @@ namespace AccountKeeper
         {
             closeButton = new Button();
 
-            closeButton.BackColor = Color.FromArgb(38, 38, 38);
-            closeButton.ForeColor = Color.FromArgb(205, 205, 205);
+            closeButton.BackColor = Color.Transparent;
+            closeButton.ForeColor = Settings.Default.foreColor;
+            closeButton.FlatAppearance.MouseOverBackColor = Settings.Default.selectionBackColor;
             closeButton.FlatAppearance.BorderSize = 0;
             closeButton.FlatStyle = FlatStyle.Flat;
             closeButton.Font = new Font("Calibri", 16);
@@ -187,31 +179,12 @@ namespace AccountKeeper
             this.Close();
         }
 
-        private bool CheckForFalseValue()
-        {
-            string[] s = {websiteTextBox.Text, "Website",
-                               emailTextBox.Text, "E-mail",
-                               usernameTextBox.Text, "Username"};
-
-            if (s[0] == s[1] || s[2] == s[3] || s[4] == s[5])
-            {
-                if(s[0] == s[1])
-                    websiteTextBox.ForeColor = textBoxForeColorFalseValue;
-                if(s[2] == s[3])
-                    emailTextBox.ForeColor = textBoxForeColorFalseValue;
-                if(s[4] == s[5])
-                    usernameTextBox.ForeColor = textBoxForeColorFalseValue;
-                return true;
-            }
-            return false;
-        }
-
         private void WebsiteTextBox_GotFocus(object sender, EventArgs e)
         {
             if (websiteTextBox.Text == "Website")
             {
                 websiteTextBox.Text = "";
-                websiteTextBox.ForeColor = textBoxForeColorWrite;
+                websiteTextBox.ForeColor = Settings.Default.foreColor;
             }
 
         }
@@ -220,7 +193,7 @@ namespace AccountKeeper
         {
             if (websiteTextBox.Text == "")
             {
-                websiteTextBox.ForeColor = textBoxForeColorHint;
+                websiteTextBox.ForeColor = Settings.Default.grayForeColor;
                 websiteTextBox.Text = "Website";
             }
         }
@@ -230,7 +203,7 @@ namespace AccountKeeper
             if (emailTextBox.Text == "E-mail")
             {
                 emailTextBox.Text = "";
-                emailTextBox.ForeColor = textBoxForeColorWrite;
+                emailTextBox.ForeColor = Settings.Default.foreColor;
             }
         }
 
@@ -238,7 +211,7 @@ namespace AccountKeeper
         {
             if (emailTextBox.Text == "")
             {
-                emailTextBox.ForeColor = textBoxForeColorHint;
+                emailTextBox.ForeColor = Settings.Default.grayForeColor;
                 emailTextBox.Text = "E-mail";
             }
         }
@@ -248,7 +221,7 @@ namespace AccountKeeper
             if (usernameTextBox.Text == "Username")
             {
                 usernameTextBox.Text = "";
-                usernameTextBox.ForeColor = textBoxForeColorWrite;
+                usernameTextBox.ForeColor = Settings.Default.foreColor;
             }
         }
 
@@ -256,7 +229,7 @@ namespace AccountKeeper
         {
             if (usernameTextBox.Text == "")
             {
-                usernameTextBox.ForeColor = textBoxForeColorHint;
+                usernameTextBox.ForeColor = Settings.Default.grayForeColor;
                 usernameTextBox.Text = "Username";
             }
         }
@@ -285,6 +258,26 @@ namespace AccountKeeper
         {
             e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
                                      this.DisplayRectangle);
+        }
+
+        //Custom methods
+        private bool CheckForFalseValue()
+        {
+            string[] s = {websiteTextBox.Text, "Website",
+                               emailTextBox.Text, "E-mail",
+                               usernameTextBox.Text, "Username"};
+
+            if (s[0] == s[1] || s[2] == s[3] || s[4] == s[5])
+            {
+                if (s[0] == s[1])
+                    websiteTextBox.ForeColor = Settings.Default.redForeColor;
+                if (s[2] == s[3])
+                    emailTextBox.ForeColor = Settings.Default.redForeColor;
+                if (s[4] == s[5])
+                    usernameTextBox.ForeColor = Settings.Default.redForeColor;
+                return true;
+            }
+            return false;
         }
     }
 }

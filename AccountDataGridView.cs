@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccountKeeper.Properties;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -11,9 +12,6 @@ namespace AccountKeeper
 {
     public class AccountDataGridView : DataGridView
     {
-        private Color backColor = Color.FromArgb(38, 38, 38);
-        private Color foreColor = Color.FromArgb(205, 205, 205);
-
         private DataWindow dw = null;
         private DataGridViewButtonColumn EditButtonColumn = null;
 
@@ -27,29 +25,27 @@ namespace AccountKeeper
         //Initializations
         private void InitializeDataGridView()
         {
-            this.BackgroundColor = backColor;
+            this.BackgroundColor = Settings.Default.formBackColor;
             this.BorderStyle = BorderStyle.None;
             this.EnableHeadersVisualStyles = false;
             this.RowHeadersWidth = 10;
             this.RowHeadersDefaultCellStyle.Padding = new Padding(this.RowHeadersWidth);
 
-            this.ColumnHeadersDefaultCellStyle.BackColor = backColor;
-            this.ColumnHeadersDefaultCellStyle.ForeColor = foreColor;
+            this.ColumnHeadersDefaultCellStyle.BackColor = Settings.Default.formBackColor;
+            this.ColumnHeadersDefaultCellStyle.ForeColor = Settings.Default.foreColor;
             this.ColumnHeadersDefaultCellStyle.Font = new Font("Calibri", 16);
             this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             this.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 
-            this.RowHeadersDefaultCellStyle.BackColor = backColor;
-            this.RowHeadersDefaultCellStyle.ForeColor = foreColor;
+            this.RowHeadersDefaultCellStyle.BackColor = Settings.Default.formBackColor;
+            this.RowHeadersDefaultCellStyle.ForeColor = Settings.Default.foreColor;
             this.RowHeadersDefaultCellStyle.Font = new Font("Calibri", 16);
             this.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 
             this.CellBorderStyle = DataGridViewCellBorderStyle.None;
 
             this.ReadOnly = true;
-
-            UpdateCellColor();
 
             this.CellContentClick += new DataGridViewCellEventHandler(DataGridView_CellContentClick);
         }
@@ -75,17 +71,6 @@ namespace AccountKeeper
             this.Columns.Add(EditButtonColumn);
         }
 
-        public void UpdateCellColor()
-        {
-            foreach (DataGridViewRow row in this.Rows)
-            {
-                row.DefaultCellStyle.BackColor = backColor;
-                row.DefaultCellStyle.ForeColor = foreColor;
-                row.DefaultCellStyle.SelectionBackColor = Color.FromArgb(46, 46, 46);
-                row.DefaultCellStyle.Font = new Font("Calibri", 12);
-            }
-        }
-
         //Event handlers
         private void DataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -108,6 +93,17 @@ namespace AccountKeeper
         {
             this.Rows.Remove(row);
             dw.RemoveAccount(row.Index + 1);
+        }
+
+        public void UpdateCellColor()
+        {
+            foreach (DataGridViewRow row in this.Rows)
+            {
+                row.DefaultCellStyle.BackColor = Settings.Default.formBackColor;
+                row.DefaultCellStyle.ForeColor = Settings.Default.foreColor;
+                row.DefaultCellStyle.SelectionBackColor = Settings.Default.selectionBackColor;
+                row.DefaultCellStyle.Font = new Font("Calibri", 12);
+            }
         }
     }
 }

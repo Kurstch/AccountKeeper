@@ -1,7 +1,27 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AccountKeeper.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="formBackColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">38, 38, 38</Value>
+    </Setting>
+    <Setting Name="foreColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">205, 205, 205</Value>
+    </Setting>
+    <Setting Name="stripBackColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">85, 85, 85</Value>
+    </Setting>
+    <Setting Name="textBoxBackColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">30, 30, 30</Value>
+    </Setting>
+    <Setting Name="redForeColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">130, 36, 36</Value>
+    </Setting>
+    <Setting Name="grayForeColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">124, 124, 124</Value>
+    </Setting>
+    <Setting Name="selectionBackColor" Type="System.Drawing.Color" Scope="Application">
+      <Value Profile="(Default)">44, 44, 44</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
