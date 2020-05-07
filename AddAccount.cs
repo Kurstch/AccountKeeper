@@ -12,10 +12,10 @@ namespace AccountKeeper
 {
     public partial class AddAccount : Form
     {
-        private Color textBoxBackColor = Color.FromArgb(27, 27, 27);
+        private Color textBoxBackColor = Color.FromArgb(30, 30, 30);
         private Color textBoxForeColorHint = Color.FromArgb(124, 124, 124);
         private Color textBoxForeColorWrite = Color.FromArgb(205, 205, 205);
-        private Color textBoxForeColorFalseValue = Color.FromArgb(100, 36, 36);
+        private Color textBoxForeColorFalseValue = Color.FromArgb(130, 36, 36);
 
         private Label hLabel = null;
         private RichTextBox websiteTextBox = null;
@@ -44,13 +44,14 @@ namespace AccountKeeper
         //Initializtions
         private void InitializeWindow()
         {
-            this.BackColor = Color.FromArgb(32, 32, 32);
+            this.BackColor = Color.FromArgb(38, 38, 38);
             this.Size = new Size(600, 400);
             this.FormBorderStyle = FormBorderStyle.None;
 
             this.MouseDown += new MouseEventHandler(AddAccount_MouseDown);
             this.MouseMove += new MouseEventHandler(AddAccount_MouseMove);
             this.MouseUp += new MouseEventHandler(AddAccount_MouseUp);
+            this.Paint += new PaintEventHandler(AddAccount_Paint);
         }
 
         private void InitializeHeaderLabel()
@@ -278,6 +279,12 @@ namespace AccountKeeper
         private void AddAccount_MouseUp(object sender, MouseEventArgs e)
         {
             dragging = false;
+        }
+
+        private void AddAccount_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
+                                     this.DisplayRectangle);
         }
     }
 }

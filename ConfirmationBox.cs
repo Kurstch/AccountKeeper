@@ -12,7 +12,7 @@ namespace AccountKeeper
 {
     public partial class ConfirmationBox : Form
     {
-        private Color backColor = Color.FromArgb(28, 28, 28);
+        private Color backColor = Color.FromArgb(38, 38, 38);
         private Color foreColor = Color.FromArgb(205, 205, 205);
 
         
@@ -45,6 +45,7 @@ namespace AccountKeeper
             this.MouseDown += new MouseEventHandler(ConfirmationBox_MouseDown);
             this.MouseMove += new MouseEventHandler(ConfirmationBox_MouseMove);
             this.MouseUp += new MouseEventHandler(ConfirmationBox_MouseUp);
+            this.Paint += new PaintEventHandler(ConfirmationBox_Paint);
         }
 
         private void InitializeQuestionlabel(string question)
@@ -133,6 +134,12 @@ namespace AccountKeeper
         private void ConfirmationBox_MouseUp(object sender, MouseEventArgs e)
         {
             dragging = false;
+        }
+
+        private void ConfirmationBox_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
+                                     this.DisplayRectangle);
         }
     }
 }

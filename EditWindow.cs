@@ -12,9 +12,9 @@ namespace AccountKeeper
 {
     public partial class EditWindow : Form
     {
-        private Color textBoxBackColor = Color.FromArgb(27, 27, 27);
+        private Color textBoxBackColor = Color.FromArgb(30, 30, 30);
 
-        private Color backColor = Color.FromArgb(32, 32, 32);
+        private Color backColor = Color.FromArgb(38, 38, 38);
         private Color foreColor = Color.FromArgb(205, 205, 205);
 
         private Label hLabel = null;
@@ -58,6 +58,7 @@ namespace AccountKeeper
             this.MouseDown += new MouseEventHandler(EditWindow_MouseDown);
             this.MouseMove += new MouseEventHandler(EditWindow_MouseMove);
             this.MouseUp += new MouseEventHandler(EditWindow_MouseUp);
+            this.Paint += new PaintEventHandler(EditWindow_Paint);
         }
 
         private void InitializeHeaderLabel()
@@ -227,6 +228,12 @@ namespace AccountKeeper
         private void EditWindow_MouseUp(object sender, MouseEventArgs e)
         {
             dragging = false;
+        }
+
+        private void EditWindow_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.DrawRectangle(new Pen(Color.Black, 4),
+                                     this.DisplayRectangle);
         }
 
         //Custom methods
