@@ -1,25 +1,32 @@
 ﻿using AccountKeeper.Properties;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace AccountKeeper
 {
     public class AccountDataGridView : DataGridView
     {
-        private DataWindow dw = null;
+        private DataWindow dataWindow = null;
+        private MainStatusStrip statusStrip = null;
         private DataGridViewButtonColumn EditButtonColumn = null;
+        private List<string[]> accounts = null;
+
+        private string filePath = @"C:\Saves\AccountKeeper\save.xml";
+        private string dirPath = @"C:\Saves\AccountKeeper";
 
         public AccountDataGridView(DataWindow tempdw)
         {
-            dw = tempdw;
+            dataWindow = tempdw;
+            statusStrip = dataWindow.Controls[1] as MainStatusStrip;
+
             InitializeDataGridView();
             InitializeColumns();
+            LoadData();
         }
 
         //Initializations
@@ -78,24 +85,71 @@ namespace AccountKeeper
             {
                 if (this.Rows.Count > 1)
                 {
-                    string[] accountData = { this.Rows[e.RowIndex].Cells[0].Value.ToString(),
-                                 this.Rows[e.RowIndex].Cells[1].Value.ToString(),
-                                 this.Rows[e.RowIndex].Cells[2].Value.ToString()};
                     DataGridViewRow row = this.Rows.SharedRow(e.RowIndex);
-
-                    new EditWindow(accountData, this, row, dw).Show();
+                    new EditWindow(this, row).Show();
                 }
             }
         }
 
-        //Custom Methods
-        public void DeleteRow(DataGridViewRow row)
+        //Save, load data
+        private void SaveData()
         {
-            this.Rows.Remove(row);
-            dw.RemoveAccount(row.Index + 1);
+            Stream stream = File.Open(filePath, FileMode.Create);
+
+            if (!File.Exists(filePath))
+            {
+                Directory.CreateDirectory(dirPath);
+                FileStream fs = File.Create(filePath);
+                fs.Close();
+            }
+
+            XElement xml = new XElement("Accounts", accounts.Select(account => new XElement("account",
+                new XAttribute("website", account[0]),
+                new XAttribute("e-mail", account[1]),
+                new XAttribute("username", account[2]))));
+            xml.Save(stream);
+
+            stream.Close();
+            statusStrip.UpdateItemCountLabel(this.RowCount - 1);
         }
 
-        public void UpdateCellColor()
+        private void LoadData()
+        {
+            accounts = new List<string[]>();
+
+            if (!File.Exists(filePath))
+            {
+                Directory.CreateDirectory(dirPath);
+                FileStream fs = File.Create(filePath);
+                fs.Close();
+            }
+
+            try
+            {
+                XDocument xmlDoc = XDocument.Load(filePath);
+                XElement root = xmlDoc.Element("Accounts");
+
+                foreach (XElement account in root.Elements())
+                {
+                    string[] accountData = new string[3];
+
+                    accountData[0] = account.Attribute("website").Value;
+                    accountData[1] = account.Attribute("e-mail").Value;
+                    accountData[2] = account.Attribute("username").Value;
+
+                    accounts.Add(accountData);
+                }
+            }
+            catch
+            {
+
+            }
+            UpdateDataGridView();
+            statusStrip.UpdateItemCountLabel(this.RowCount - 1);
+        }
+
+        //Custom Methods
+        public void UpdateCellStyle()
         {
             foreach (DataGridViewRow row in this.Rows)
             {
@@ -103,7 +157,45 @@ namespace AccountKeeper
                 row.DefaultCellStyle.ForeColor = Settings.Default.foreColor;
                 row.DefaultCellStyle.SelectionBackColor = Settings.Default.selectionBackColor;
                 row.DefaultCellStyle.Font = new Font("Calibri", 12);
+                if (row.IsNewRow)
+                    row.DefaultCellStyle.Padding = new Padding(20);
+                else
+                    row.DefaultCellStyle.Padding = new Padding(0);             
             }
+        }
+
+        public void AddNewAccount(string[] data)
+        {
+            accounts.Add(data);
+            UpdateDataGridView();
+        }
+
+        public void RemoveAccount(DataGridViewRow row)
+        {
+            this.Rows.Remove(row);
+            accounts.RemoveAt(row.Index + 1);
+            SaveData();
+        }
+
+        public void EditAccount(string[] accountData, int index)
+        {
+            string[] account = accounts[index];
+            account[0] = accountData[0];
+            account[1] = accountData[1];
+            account[2] = accountData[2];
+
+            UpdateDataGridView();
+        }
+
+        private void UpdateDataGridView()
+        {
+            this.Rows.Clear();
+            foreach (string[] account in accounts)
+            {
+                this.Rows.Add(account);
+            }
+            UpdateCellStyle();
+            SaveData();
         }
     }
 }

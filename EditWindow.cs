@@ -1,12 +1,5 @@
 ﻿using AccountKeeper.Properties;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AccountKeeper
@@ -20,18 +13,19 @@ namespace AccountKeeper
         private Button closeButton = null;
         private Button acceptButton = null;
         private Button deleteButton = null;
-        private DataWindow dw = null;
-        private AccountDataGridView dgv = null;
+        private AccountDataGridView dataGridView = null;
         private DataGridViewRow row = null;
 
         private bool dragging = false;
         private Point startPoint = Point.Empty;
 
-        public EditWindow(string[] accountData, AccountDataGridView tempDgv, DataGridViewRow tempRow, DataWindow tempdw)
+        public EditWindow(AccountDataGridView tempDataGridView, DataGridViewRow tempRow)
         {
-            dw = tempdw;
-            dgv = tempDgv;
+            dataGridView = tempDataGridView;
             row = tempRow;
+            string[] accountData = { row.Cells[0].Value.ToString(),
+                                 row.Cells[1].Value.ToString(),
+                                 row.Cells[2].Value.ToString()};
 
             InitializeComponent();
             InitializeForm();
@@ -198,7 +192,7 @@ namespace AccountKeeper
         private void AcceptButton_MouseDown(object sender, MouseEventArgs e)
         {
             string[] accountData = { websiteTextBox.Text, emailTextBox.Text, usernameTextBox.Text };
-            dw.EditAccount(accountData, row.Index);
+            dataGridView.EditAccount(accountData, row.Index);
             this.Close();
         }
 
@@ -238,7 +232,7 @@ namespace AccountKeeper
         //Custom methods
         public void deleteAccount()
         {
-            dgv.DeleteRow(row);
+            dataGridView.RemoveAccount(row);
             this.Close();
         }
     }

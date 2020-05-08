@@ -1,6 +1,6 @@
 ﻿using AccountKeeper.Properties;
 using System;
-using System.Drawing;
+using System.Drawing; 
 using System.Windows.Forms;
 
 namespace AccountKeeper
@@ -13,14 +13,17 @@ namespace AccountKeeper
         private RichTextBox usernameTextBox = null;
         private Button closeButton = null;
         private Button acceptButton = null;
-        private DataWindow dw = null;
+        private DataWindow dataWindow = null;
+        private AccountDataGridView dataGridView = null;
 
         private bool dragging = false;
         private Point startPoint = Point.Empty;
 
-        public AddAccount(DataWindow tempdw)
+        public AddAccount(DataWindow tempDataWindow)
         {
-            dw = tempdw;
+            dataWindow = tempDataWindow;
+            dataGridView = dataWindow.Controls[2] as AccountDataGridView;
+
             InitializeComponent();
             InitializeHeaderLabel();
             InitializeWindow();
@@ -175,7 +178,7 @@ namespace AccountKeeper
                 return;
 
             string[] accountData = { websiteTextBox.Text, emailTextBox.Text, usernameTextBox.Text };
-            dw.AddNewAccount(accountData);
+            dataGridView.AddNewAccount(accountData);
             this.Close();
         }
 

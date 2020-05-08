@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace AccountKeeper
 {
-    class MainStatusStrip : StatusStrip
+    public class MainStatusStrip : StatusStrip
     {
         private ToolStripLabel itemCountLabel = null;
 

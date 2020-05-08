@@ -1,12 +1,5 @@
 ﻿using AccountKeeper.Properties;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AccountKeeper
@@ -16,14 +9,14 @@ namespace AccountKeeper
         private Label questionLabel = null;
         private Button yesButton = null;
         private Button noButton = null;
-        private EditWindow edWindow = null;
+        private EditWindow editWindow = null;
 
         private bool dragging = false;
         private Point startPoint = Point.Empty;
 
-        public ConfirmationBox(string question, EditWindow tempEdWindow)
+        public ConfirmationBox(string question, EditWindow tempEditWindow)
         {
-            edWindow = tempEdWindow;
+            editWindow = tempEditWindow;
 
             InitializeComponent();
             InitializeForm();
@@ -36,7 +29,7 @@ namespace AccountKeeper
         private void InitializeForm()
         {
             this.BackColor = Settings.Default.formBackColor;
-            this.Size = new Size(300, 200);
+            this.Size = new Size(340, 200);
             this.FormBorderStyle = FormBorderStyle.None;
 
             this.MouseDown += new MouseEventHandler(ConfirmationBox_MouseDown);
@@ -54,7 +47,7 @@ namespace AccountKeeper
             questionLabel.Text = question;
             questionLabel.Font = new Font("Calibri", 13);
 
-            questionLabel.Size = new Size(260, 80);
+            questionLabel.Size = new Size(this.Width - 40, 80);
             questionLabel.Location = new Point(20, 20);
 
             this.Controls.Add(questionLabel);
@@ -106,7 +99,7 @@ namespace AccountKeeper
         //Event handlers
         private void YesButton_MouseDown(object sender, MouseEventArgs e)
         {
-            edWindow.deleteAccount();
+            editWindow.deleteAccount();
             this.Close();
         }
 

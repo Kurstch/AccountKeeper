@@ -11,14 +11,14 @@ namespace AccountKeeper
         private ToolStripButton closeButton = null;
         private ToolStripButton maximizeButton = null;
         private ToolStripButton minimizeButton = null;
-        private DataWindow dw = null;
+        private DataWindow dataWindow = null;
 
         private bool dragging = false;
         private Point startPoint = Point.Empty;
 
-        public MainToolStrip(DataWindow tempdw)
+        public MainToolStrip(DataWindow tempDataWindow)
         {
-            dw = tempdw;
+            dataWindow = tempDataWindow;
             InitializeToolStrip();
             InitializeFileMenu();
             InitializeAccountsMenu();
@@ -127,12 +127,12 @@ namespace AccountKeeper
         //Event handlers
         private void AddAccount_MouseDown(object sender, MouseEventArgs e)
         {
-            new AddAccount(dw).Show();
+            new AddAccount(dataWindow).Show();
         }
 
         private void ExitApp_MouseDown(object sender, MouseEventArgs e)
         {
-            dw.Close();
+            dataWindow.Close();
         }
 
         private void MainMenuStrip_MouseDown(object sender, MouseEventArgs e)
@@ -146,7 +146,7 @@ namespace AccountKeeper
             if (dragging)
             {
                 Point p = PointToScreen(e.Location);
-                dw.Location = new Point(p.X - this.startPoint.X, p.Y - this.startPoint.Y);
+                dataWindow.Location = new Point(p.X - this.startPoint.X, p.Y - this.startPoint.Y);
             }
         }
 
@@ -157,20 +157,20 @@ namespace AccountKeeper
 
         private void CloseButton_MouseDown(object sender, MouseEventArgs e)
         {
-            dw.Dispose();
+            dataWindow.Dispose();
         }
         
         private void MaximizeButton_MouseDown(object sender, MouseEventArgs e)
         {
-            if (dw.WindowState == FormWindowState.Normal)
-                dw.WindowState = FormWindowState.Maximized;
+            if (dataWindow.WindowState == FormWindowState.Normal)
+                dataWindow.WindowState = FormWindowState.Maximized;
             else
-                dw.WindowState = FormWindowState.Normal;
+                dataWindow.WindowState = FormWindowState.Normal;
         }
         
         private void MinimizeButton_MouseDown(object sender, MouseEventArgs e)
         {
-            dw.WindowState = FormWindowState.Minimized;
+            dataWindow.WindowState = FormWindowState.Minimized;
         }
     }
 }
