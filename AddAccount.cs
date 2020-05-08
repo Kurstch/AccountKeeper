@@ -1,6 +1,6 @@
 ﻿using AccountKeeper.Properties;
 using System;
-using System.Drawing; 
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace AccountKeeper
@@ -72,6 +72,7 @@ namespace AccountKeeper
             websiteTextBox.BackColor = Settings.Default.textBoxBackColor;
             websiteTextBox.ForeColor = Settings.Default.grayForeColor;
             websiteTextBox.Text = "Website";
+            websiteTextBox.Tag = "Website";
             websiteTextBox.Font = new Font("Calibri", 14);
 
             websiteTextBox.Location = new Point(30, 90);
@@ -82,8 +83,8 @@ namespace AccountKeeper
             websiteTextBox.ScrollBars = RichTextBoxScrollBars.None;
 
             this.Controls.Add(websiteTextBox);
-            websiteTextBox.GotFocus += new EventHandler(WebsiteTextBox_GotFocus);
-            websiteTextBox.LostFocus += new EventHandler(WebsiteTextBox_LostFocus);
+            websiteTextBox.Enter += new EventHandler(TextBox_Enter);
+            websiteTextBox.Leave += new EventHandler(TextBox_Leave);
         }
 
         private void InitializeEmailTextBox()
@@ -93,6 +94,7 @@ namespace AccountKeeper
             emailTextBox.BackColor = Settings.Default.textBoxBackColor;
             emailTextBox.ForeColor = Settings.Default.grayForeColor;
             emailTextBox.Text = "E-mail";
+            emailTextBox.Tag = "E-mail";
             emailTextBox.Font = new Font("Calibri", 14);
 
             emailTextBox.Location = new Point(30, 150);
@@ -103,10 +105,10 @@ namespace AccountKeeper
             emailTextBox.ScrollBars = RichTextBoxScrollBars.None;
 
             this.Controls.Add(emailTextBox);
-            emailTextBox.GotFocus += new EventHandler(EmailTextBox_GotFocus);
-            emailTextBox.LostFocus += new EventHandler(EmailTextBox_LostFocus);
+            emailTextBox.Enter += new EventHandler(TextBox_Enter);
+            emailTextBox.Leave += new EventHandler(TextBox_Leave);
         }
-        
+
         private void InitializeUsernameTextBox()
         {
             usernameTextBox = new RichTextBox();
@@ -114,6 +116,7 @@ namespace AccountKeeper
             usernameTextBox.BackColor = Settings.Default.textBoxBackColor;
             usernameTextBox.ForeColor = Settings.Default.grayForeColor;
             usernameTextBox.Text = "Username";
+            usernameTextBox.Tag = "Username";
             usernameTextBox.Font = new Font("Calibri", 14);
 
             usernameTextBox.Location = new Point(30, 210);
@@ -124,8 +127,8 @@ namespace AccountKeeper
             usernameTextBox.ScrollBars = RichTextBoxScrollBars.None;
 
             this.Controls.Add(usernameTextBox);
-            usernameTextBox.GotFocus += new EventHandler(UsernameTextBox_GotFocus);
-            usernameTextBox.LostFocus += new EventHandler(UsernameTextBox_LostFocus);
+            usernameTextBox.Enter += new EventHandler(TextBox_Enter);
+            usernameTextBox.Leave += new EventHandler(TextBox_Leave);
         }
 
         private void InitializeAcceptButton()
@@ -182,58 +185,23 @@ namespace AccountKeeper
             this.Close();
         }
 
-        private void WebsiteTextBox_GotFocus(object sender, EventArgs e)
+        private void TextBox_Enter(object sender, EventArgs e)
         {
-            if (websiteTextBox.Text == "Website")
+            RichTextBox field = (RichTextBox)sender;
+            if (field.Text == (string)field.Tag)
             {
-                websiteTextBox.Text = "";
-                websiteTextBox.ForeColor = Settings.Default.foreColor;
-            }
-
-        }
-
-        private void WebsiteTextBox_LostFocus(object sender, EventArgs e)
-        {
-            if (websiteTextBox.Text == "")
-            {
-                websiteTextBox.ForeColor = Settings.Default.grayForeColor;
-                websiteTextBox.Text = "Website";
-            }
-        }
-        
-        private void EmailTextBox_GotFocus(object sender, EventArgs e)
-        {
-            if (emailTextBox.Text == "E-mail")
-            {
-                emailTextBox.Text = "";
-                emailTextBox.ForeColor = Settings.Default.foreColor;
+                field.Text = string.Empty;
+                field.ForeColor = Settings.Default.foreColor;
             }
         }
 
-        private void EmailTextBox_LostFocus(object sender, EventArgs e)
+        private void TextBox_Leave(object sender, EventArgs e)
         {
-            if (emailTextBox.Text == "")
+            RichTextBox field = (RichTextBox)sender;
+            if (field.Text == string.Empty)
             {
-                emailTextBox.ForeColor = Settings.Default.grayForeColor;
-                emailTextBox.Text = "E-mail";
-            }
-        }
-
-        private void UsernameTextBox_GotFocus(object sender, EventArgs e)
-        {
-            if (usernameTextBox.Text == "Username")
-            {
-                usernameTextBox.Text = "";
-                usernameTextBox.ForeColor = Settings.Default.foreColor;
-            }
-        }
-
-        private void UsernameTextBox_LostFocus(object sender, EventArgs e)
-        {
-            if (usernameTextBox.Text == "")
-            {
-                usernameTextBox.ForeColor = Settings.Default.grayForeColor;
-                usernameTextBox.Text = "Username";
+                field.Text = (string)field.Tag;
+                field.ForeColor = Settings.Default.grayForeColor;
             }
         }
 
